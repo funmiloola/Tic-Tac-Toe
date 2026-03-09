@@ -46,7 +46,7 @@ export default function Game() {
     }
     return (
         <section style={{ display: "flex", flexDirection: "column", justifyItems: "center", alignItems: "center", paddingTop: "64px" }}>
-            <h1 style={{color:"white",fontSize:"16px",paddingBottom:"12px",display:`${currentBoard.includes(null) ? "block":"none"}`}}>Next Player: {currentPlayer}</h1>
+            <h1 style={{color:"white",fontSize:"16px",paddingBottom:"12px",display:`${currentBoard.includes(null) && !winner ? "block":"none"}`}}>Next Player: {currentPlayer}</h1>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gridTemplateRows:"repeat(3,1fr)",gap:"10px",width:"50%",alignItems:"center"}}>
                 {currentBoard.map((square, index) => (
                     <button style={{ padding: "16px 2px" }} onClick={()=>handleClick(index)}>{ square}</button>
