@@ -49,7 +49,7 @@ export default function Game() {
             <h1 style={{color:"white",fontSize:"16px",paddingBottom:"12px",display:`${currentBoard.includes(null) && !winner ? "block":"none"}`}}>Next Player: {currentPlayer}</h1>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gridTemplateRows:"repeat(3,1fr)",gap:"10px",width:"50%",alignItems:"center"}}>
                 {currentBoard.map((square, index) => (
-                    <button style={{ padding: "16px 2px" }} onClick={()=>handleClick(index)}>{ square}</button>
+                    <button style={{ padding: "16px 2px",minHeight:"50px" }} onClick={()=>handleClick(index)}>{ square}</button>
                 ))}
             </div>
             <button onClick={handleReset} style={{ marginTop: "12px", padding: "4px 24px", borderRadius: "4px" }}>Reset Game</button>
