@@ -1,3 +1,4 @@
+import "./modal.css"
 export default function Modal({ winner, handleReset, handleEndGame }) {
   return (
     <div
@@ -17,10 +18,9 @@ export default function Modal({ winner, handleReset, handleEndGame }) {
         style={{
           background: "white",
           textAlign: "center",
-          width: "25%",
-          height: "30%",
           borderRadius: "10px",
-        }}
+              }}
+              className="modal"
       >
         <h2 style={{ color: "rgb(1,1,46)", paddingTop: "20px" }}>
           Congratulations!
