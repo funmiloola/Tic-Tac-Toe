@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
+import "./game.css";
 export default function Game({
   firstPlayer,
   secondPlayer,
   setOpenInput,
   setOpenGame,
   setSecondPlayer,
-  setFirstPlayer
+  setFirstPlayer,
 }) {
   const winningPatterns = [
     [0, 1, 2],
@@ -19,15 +20,15 @@ export default function Game({
     [2, 4, 6],
   ];
   const [currentBoard, setCurrentBoard] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    "_",
+    "_",
+    "_",
+    "_",
+    "_",
+    "_",
+    "_",
+    "_",
+    "_",
   ]);
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const displayResult = () => {
@@ -38,16 +39,16 @@ export default function Game({
         currentBoard[b] === "X" &&
         currentBoard[c] === "X"
       ) {
-        return `Player ${firstPlayer} wins!`;
+        return `Player ${firstPlayer.charAt(0).toUpperCase() + firstPlayer.slice(1)} wins!`;
       } else if (
         currentBoard[a] === "O" &&
         currentBoard[b] === "O" &&
         currentBoard[c] === "O"
       ) {
-        return `Player ${secondPlayer} wins!`;
+        return `Player ${secondPlayer.charAt(0).toUpperCase() + secondPlayer.slice(1)} wins!`;
       }
     }
-    if (currentBoard.includes(null)) return;
+    if (currentBoard.includes("_")) return;
     return "It is a draw";
   };
   const winner = displayResult();
@@ -65,7 +66,7 @@ export default function Game({
 
   const handleClick = (index) => {
     if (winner) return;
-    if (currentBoard[index] === null) {
+    if (currentBoard[index] === "_") {
       const newBoard = [...currentBoard];
       newBoard[index] = currentPlayer;
       setCurrentBoard(newBoard);
@@ -74,29 +75,24 @@ export default function Game({
   };
   const nextPlayer = () => {
     if (currentPlayer === "X") {
-      return firstPlayer;
+      return firstPlayer.toUpperCase();
     }
-    return secondPlayer;
+    return secondPlayer.toUpperCase();
   };
-  const handleReset = () => {
-    setCurrentBoard([null, null, null, null, null, null, null, null, null]);
-    setCurrentPlayer("X");
-    localStorage.removeItem("winner");
-    setStore([]);
-  };
+
   const handlePlayAgain = () => {
-    setCurrentBoard([null, null, null, null, null, null, null, null, null]);
+    setCurrentBoard(["_", "_", "_", "_", "_", "_", "_", "_", "_"]);
     setCurrentPlayer("X");
   };
-    const handleEndGame = () => {
-    setCurrentBoard([null, null, null, null, null, null, null, null, null]);
+  const handleEndGame = () => {
+    setCurrentBoard(["_", "_", "_", "_", "_", "_", "_", "_", "_"]);
     setCurrentPlayer("X");
     setOpenInput(true);
     setOpenGame(false);
     localStorage.removeItem("winner");
     setStore([]);
-    setSecondPlayer('')
-    setFirstPlayer('')
+    setSecondPlayer("");
+    setFirstPlayer("");
   };
   return (
     <div>
@@ -106,18 +102,18 @@ export default function Game({
           flexDirection: "column",
           justifyItems: "center",
           alignItems: "center",
-          paddingTop: "64px",
+          paddingTop: "120px",
         }}
       >
         <h1
           style={{
-            color: "white",
-            fontSize: "16px",
-            paddingBottom: "12px",
-            display: `${currentBoard.includes(null) && !winner ? "block" : "none"}`,
+            color: "#FFD6A5",
+            paddingBottom: "20px",
+            display: `${currentBoard.includes("_") && !winner ? "block" : "none"}`,
+            fontFamily: "Nunito",
           }}
         >
-          Next Player: {nextPlayer()}
+          NEXT PLAYER: {nextPlayer()}
         </h1>
         <div
           style={{
@@ -125,47 +121,71 @@ export default function Game({
             gridTemplateColumns: "repeat(3,1fr)",
             gridTemplateRows: "repeat(3,1fr)",
             gap: "10px",
-            width: "50%",
             alignItems: "center",
           }}
+          className="grid"
         >
           {currentBoard.map((square, index) => (
             <button
               key={index}
-              style={{ padding: "16px 2px", minHeight: "50px" }}
+              style={{
+                padding: "0px 2px",
+                minHeight: "40px",
+                backgroundColor: `${
+                  currentBoard[index] === "X"
+                    ? "#f7bf7aff"
+                    : currentBoard[index] === "O"
+                      ? "#bd82f0ff"
+                      : "white"
+                }`,
+                color: `white`,
+                border: "none",
+                borderRadius: "6px",
+                fontSize: "24px",
+                fontWeight: "400",
+                fontFamily: "Nunito",
+              }}
               onClick={() => handleClick(index)}
             >
-              {square}
+              {square === "_" ? null : square}
             </button>
           ))}
         </div>
         <button
-          onClick={handleReset}
+          onClick={handleEndGame}
           style={{
-            marginTop: "12px",
-            padding: "4px 24px",
-              borderRadius: "4px",
-            cursor:"pointer"
+            marginTop: "24px",
+
+            borderRadius: "4px",
+            cursor: "pointer",
+            border: "none",
+            background: "#e2224fff",
+            color: "white",
+            fontSize: "16px",
+            fontWeight: "500",
+            fontFamily: "Nunito",
           }}
+          className="btn"
         >
           Reset Game
         </button>
-        <p style={{ paddingTop: "12px", color: "white" }}>{winner}</p>
         <div
           style={{
             background: "white",
-            width: "50%",
             padding: "10px 10px",
             marginTop: "50px",
           }}
+          className="liveScore"
         >
           <h4
             style={{
-              color: "rgb(1,1,62)",
+              color: "rgba(31, 175, 91, 1)",
               textAlign: "center",
               borderBottom: "1px solid",
-              borderBottomColor: "rgb(1,1,62)",
+              borderBottomColor: "rgba(226, 226, 230, 1)",
               paddingBottom: "4px",
+
+              fontFamily: "Nunito",
             }}
           >
             Live Scores
@@ -176,12 +196,23 @@ export default function Game({
               display: "flex",
               flexDirection: "column",
               gap: "5px",
+              fontFamily: "Nunito",
             }}
           >
             {store.map((s, index) => (
               <li
-                key={index}
-                style={{ listStyle: "none", color: "rgb(1,1,62)" }}
+                style={{
+                  listStyle: "none",
+                  color:
+                    typeof s === "string"
+                      ? s.toLowerCase().includes(firstPlayer.toLowerCase())
+                        ? "#f7bf7aff"
+                        : s.toLowerCase().includes(secondPlayer.toLowerCase())
+                          ? "#bd82f0ff"
+                          : "rgba(31, 175, 91, 1)"
+                      : "rgba(31, 175, 91, 1)",
+                  fontWeight: "400",
+                }}
               >
                 <span>Round{index + 1}:</span>
                 <span> {s}</span>
@@ -195,6 +226,8 @@ export default function Game({
           winner={winner}
           handleReset={handlePlayAgain}
           handleEndGame={handleEndGame}
+          firstPlayer={firstPlayer}
+          secondPlayer={secondPlayer}
         />
       )}
     </div>

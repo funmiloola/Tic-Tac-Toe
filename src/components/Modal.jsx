@@ -1,5 +1,5 @@
 import "./modal.css"
-export default function Modal({ winner, handleReset, handleEndGame }) {
+export default function Modal({ winner, handleReset, handleEndGame,firstPlayer,secondPlayer }) {
   return (
     <div
       style={{
@@ -11,7 +11,7 @@ export default function Modal({ winner, handleReset, handleEndGame }) {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+       
       }}
     >
       <div
@@ -19,14 +19,17 @@ export default function Modal({ winner, handleReset, handleEndGame }) {
           background: "white",
           textAlign: "center",
           borderRadius: "10px",
+          marginTop:"120px"
               }}
               className="modal"
       >
-        <h2 style={{ color: "rgb(1,1,46)", paddingTop: "20px" }}>
+        <h2 style={{ color: "#FFB347", paddingTop: "20px" }}>
           Congratulations!
         </h2>
         <p
-          style={{ color: "rgb(1,1,46)", fontSize: "20px", paddingTop: "10px" }}
+          style={{fontFamily:"Nunito", color: typeof winner === "string" ? winner.toLowerCase().includes(firstPlayer.toLowerCase()) ? "#f7bf7aff" : winner.toLowerCase().includes(secondPlayer.toLowerCase())? "#bd82f0ff"
+                          : "rgba(31, 175, 91, 1)"
+                      : "rgba(31, 175, 91, 1)", fontSize: "20px", paddingTop: "10px" }}
         >
           {winner}
         </p>
@@ -35,18 +38,20 @@ export default function Modal({ winner, handleReset, handleEndGame }) {
             display: "flex",
             gap: "20px",
             justifyContent: "center",
-            paddingTop: "35px",
+                      paddingTop: "35px",
+            
           }}
         >
           <button
             onClick={handleReset}
             style={{
-              padding: "4px 8px",
-              background: "rgb(1,1,46)",
+              padding: "8px 8px",
+              background: "rgba(31, 175, 91, 1)",
               borderRadius: "5px",
               color: "white",
               border: "none",
-              cursor: "pointer",
+                cursor: "pointer",
+              fontFamily:"Nunito"
             }}
           >
             Play again!
@@ -54,12 +59,13 @@ export default function Modal({ winner, handleReset, handleEndGame }) {
           <button
             onClick={handleEndGame}
             style={{
-              padding: "4px 8px",
+              padding: "8px 8px",
               background: "white",
               borderRadius: "5px",
-              color: "rgb(1,1,46)",
-              borderColor: "rgb(1,1,46)",
-              cursor: "pointer",
+              color: "#e20d3eff",
+              borderColor: "#e2224fff",
+                cursor: "pointer",
+              fontFamily:"Nunito"
             }}
           >
             End game
