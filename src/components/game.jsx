@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import "./game.css";
-export default function Game({
-  firstPlayer,
-  secondPlayer,
-  setOpenInput,
-  setOpenGame,
-  setSecondPlayer,
-  setFirstPlayer,
-}) {
+import { useNavigate } from "react-router-dom";
+export default function Game() {
+  const firstPlayer = localStorage.getItem("firstPlayer")
+  const secondPlayer = localStorage.getItem("secondPlayer")
   const winningPatterns = [
     [0, 1, 2],
     [3, 4, 5],
@@ -30,7 +26,8 @@ export default function Game({
     "_",
     "_",
   ]);
-  const [currentPlayer, setCurrentPlayer] = useState("X");
+    const [currentPlayer, setCurrentPlayer] = useState("X");
+    const navigate = useNavigate()
   const displayResult = () => {
     for (let patterns of winningPatterns) {
       const [a, b, c] = patterns;
@@ -87,12 +84,9 @@ export default function Game({
   const handleEndGame = () => {
     setCurrentBoard(["_", "_", "_", "_", "_", "_", "_", "_", "_"]);
     setCurrentPlayer("X");
-    setOpenInput(true);
-    setOpenGame(false);
     localStorage.removeItem("winner");
     setStore([]);
-    setSecondPlayer("");
-    setFirstPlayer("");
+       navigate("/")
   };
   return (
     <div>
