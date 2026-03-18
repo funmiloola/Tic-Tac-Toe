@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import "./game.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 export default function Game() {
-  const firstPlayer = localStorage.getItem("firstPlayer")
-  const secondPlayer = localStorage.getItem("secondPlayer")
+  const firstPlayer = localStorage.getItem("firstPlayer");
+  const secondPlayer = localStorage.getItem("secondPlayer");
+  const location = useLocation();
+
   const winningPatterns = [
     [0, 1, 2],
     [3, 4, 5],
@@ -26,8 +28,8 @@ export default function Game() {
     "_",
     "_",
   ]);
-    const [currentPlayer, setCurrentPlayer] = useState("X");
-    const navigate = useNavigate()
+  const [currentPlayer, setCurrentPlayer] = useState("X");
+  const navigate = useNavigate();
   const displayResult = () => {
     for (let patterns of winningPatterns) {
       const [a, b, c] = patterns;
@@ -52,6 +54,7 @@ export default function Game() {
   const [store, setStore] = useState(
     () => JSON.parse(localStorage.getItem("winner")) || [],
   );
+
   useEffect(() => {
     if (winner) {
       const existingWinner = JSON.parse(localStorage.getItem("winner")) || [];
@@ -60,7 +63,11 @@ export default function Game() {
       localStorage.setItem("winner", JSON.stringify(updatedList));
     }
   }, [winner]);
-
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("winner");
+    };
+  }, []);
   const handleClick = (index) => {
     if (winner) return;
     if (currentBoard[index] === "_") {
@@ -86,7 +93,7 @@ export default function Game() {
     setCurrentPlayer("X");
     localStorage.removeItem("winner");
     setStore([]);
-       navigate("/")
+    navigate("/");
   };
   return (
     <div>
@@ -195,6 +202,7 @@ export default function Game() {
           >
             {store.map((s, index) => (
               <li
+                key={index}
                 style={{
                   listStyle: "none",
                   color:
